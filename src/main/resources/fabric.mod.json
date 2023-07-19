@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "EntityRange",
+  "id": "entityrange",
   "version": "${version}",
   "name": "EntityRange",
   "description": "",
@@ -8,15 +8,12 @@
   "contact": {
     "repo": "https://github.com/etchx/EntityRange"
   },
-  "license": "LGPL-3.0",
+  "license": "GPL-3.0",
   "icon": "assets/EntityRange/icon.png",
   "environment": "client",
   "entrypoints": {
     "client": [
       "io.github.etchx.entityrange.client.EntityRangeClient"
-    ],
-    "main": [
-      "io.github.etchx.entityrange.EntityRange"
     ]
   },
   "mixins": [
