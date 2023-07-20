@@ -1,5 +1,6 @@
 package io.github.etchx.entityrange.mixin;
 
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -18,9 +19,10 @@ public abstract class GameRendererMixin {
     private Vec3d displayDistance(EntityHitResult instance) {
         Vec3d newPos = instance.getPos();
         if (hitPos == null || newPos.distanceTo(hitPos) > 0.0001) {
-            Entity source = ((GameRenderer) (Object) this).getClient().cameraEntity;
+            MinecraftClient client = ((GameRenderer) (Object) this).getClient();
+            Entity source = client.cameraEntity;
             double entityDistance = source.getEyePos().distanceTo(newPos);
-            ((PlayerEntity) source).sendMessage(Text.translatable(String.format("%.3f", entityDistance)), true);
+            client.player.sendMessage(Text.translatable(String.format("%.3f", entityDistance)), true);
             hitPos = newPos;
         }
         return newPos;
