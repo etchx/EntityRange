@@ -7,8 +7,8 @@ public class EntityRangeClient implements ClientModInitializer {
     /**
      * Runs the mod initializer on the client environment.
      */
-    public static boolean raycastResult = false;
-    public static Vec3d intersectPos;
+    public static Vec3d hitPos;
+
     @Override
     public void onInitializeClient() {
 
