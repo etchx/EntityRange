@@ -13,6 +13,8 @@ import java.nio.file.Path;
 
 public class EntityRangeConfig {
     public static boolean showHitsInChat = false;
+    public static boolean displayHits = true;
+    public static boolean displayDistance = true;
 
     private Path configPath;
     private static final Gson GSON = new GsonBuilder()
