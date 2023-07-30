@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import static io.github.etchx.entityrange.client.EntityRangeClient.hitPos;
 import static io.github.etchx.entityrange.client.EntityRangeClient.lastHit;
-import static io.github.etchx.entityrange.client.EntityRangeConfig.displayHits;
+import static io.github.etchx.entityrange.client.EntityRangeConfig.hideHitDisplay;
 import static io.github.etchx.entityrange.client.EntityRangeConfig.showHitsInChat;
 
 @Mixin(MinecraftClient.class)
@@ -19,6 +19,6 @@ public abstract class MinecraftClientMixin {
     private void displayHitDistance(CallbackInfoReturnable<Boolean> cir) {
         ClientPlayerEntity player = ((MinecraftClient)(Object)this).player;
         lastHit = player.getEyePos().distanceTo(hitPos);
-        if (showHitsInChat && displayHits) player.sendMessage(Text.translatable(String.format("%.3f", lastHit)));
+        if (showHitsInChat && !hideHitDisplay) player.sendMessage(Text.translatable(String.format("%.3f", lastHit)));
     }
 }

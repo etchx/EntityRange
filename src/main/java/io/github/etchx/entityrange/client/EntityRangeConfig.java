@@ -13,8 +13,8 @@ import java.nio.file.Path;
 
 public class EntityRangeConfig {
     public static boolean showHitsInChat = false;
-    public static boolean displayHits = true;
-    public static boolean displayDistance = true;
+    public static boolean hideHitDisplay = false;
+    public static boolean hideDistanceDisplay = false;
 
     private Path configPath;
     private static final Gson GSON = new GsonBuilder()
@@ -29,7 +29,7 @@ public class EntityRangeConfig {
                 .resolve(name);
     }
 
-    public static EntityRangeConfig load(String name) {
+    public static void load(String name) {
         Path path = getConfigPath(name);
         EntityRangeConfig config;
 
@@ -51,7 +51,6 @@ public class EntityRangeConfig {
             throw new RuntimeException("Couldn't update config file", e);
         }
 
-        return config;
     }
 
     public void writeChanges() throws IOException {
