@@ -23,7 +23,6 @@ public abstract class GameRendererMixin {
             MinecraftClient client = ((GameRenderer) (Object) this).getClient();
             Entity source = client.cameraEntity;
             entityDistance = source.getEyePos().distanceTo(newPos);
-            //client.player.sendMessage(Text.translatable(String.format("%.3f", entityDistance)), true);
             hitPos = newPos;
         }
         return newPos;
