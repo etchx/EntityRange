@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import static io.github.etchx.entityrange.client.EntityRangeClient.displayDistance;
 import static io.github.etchx.entityrange.client.EntityRangeClient.entityDistance;
 import static io.github.etchx.entityrange.client.EntityRangeClient.lastHit;
+import static io.github.etchx.entityrange.client.EntityRangeConfig.showHitsInChat;
 
 @Mixin(InGameHud.class)
 public abstract class InGameHudMixin {
@@ -25,10 +26,12 @@ public abstract class InGameHudMixin {
                     (context.getScaledWindowHeight() - 7) / 2 + 15,
                     color,false);
         }
-        context.drawText(((InGameHud)(Object)this).getTextRenderer(),
-                Text.translatable(String.format("Last hit: %.3f", lastHit)),
-                10,
-                (context.getScaledWindowHeight() - 7) / 2 - 15,
-                0xFFFFFF,false);
+        if (!showHitsInChat) {
+            context.drawText(((InGameHud) (Object) this).getTextRenderer(),
+                    Text.translatable(String.format("Last hit: %.3f", lastHit)),
+                    10,
+                    (context.getScaledWindowHeight() - 7) / 2 - 15,
+                    0xFFFFFF, false);
+        }
     }
 }
