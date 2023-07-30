@@ -8,6 +8,9 @@ public class EntityRangeClient implements ClientModInitializer {
      * Runs the mod initializer on the client environment.
      */
     public static Vec3d hitPos;
+    public static double entityDistance;
+    public static double lastHit;
+    public static boolean displayDistance;
 
     @Override
     public void onInitializeClient() {
