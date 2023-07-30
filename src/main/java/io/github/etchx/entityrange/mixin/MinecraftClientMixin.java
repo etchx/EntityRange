@@ -19,6 +19,6 @@ public abstract class MinecraftClientMixin {
     private void displayHitDistance(CallbackInfoReturnable<Boolean> cir) {
         ClientPlayerEntity player = ((MinecraftClient)(Object)this).player;
         lastHit = player.getEyePos().distanceTo(hitPos);
-        if (showHitsInChat && !hideHitDisplay) player.sendMessage(Text.translatable(String.format("%.3f", lastHit)));
+        if (showHitsInChat && !hideHitDisplay) player.sendMessage(Text.of(String.format("%.3f", lastHit)), false);
     }
 }
