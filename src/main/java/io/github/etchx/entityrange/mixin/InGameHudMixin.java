@@ -48,8 +48,9 @@ public abstract class InGameHudMixin {
         }
         else if (projectileHit && targetPlayer == null && showHitsInChat && !hideHitDisplay) {
             player.sendMessage(Text.translatable(String.format("%.3f", lastHit)));
+            projectileHit = false;
         }
-        closestDistance = Float.MAX_VALUE;
+        closestDistance = Double.MAX_VALUE;
         if (targetingEntity && !hideDistanceDisplay) {
             targetingEntity = false;
             int color = entityDistance > 3 ? 0xFFFFFF : 0xFF0000;

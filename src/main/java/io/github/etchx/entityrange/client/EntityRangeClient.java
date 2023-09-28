@@ -11,7 +11,7 @@ public class EntityRangeClient implements ClientModInitializer {
     public static boolean targetingEntity;
     public static boolean arrowHit;
     public static PlayerEntity targetPlayer;
-    public static float closestDistance = Float.MAX_VALUE;
+    public static double closestDistance = Double.MAX_VALUE;
     public static boolean projectileHit;
 
     @Override
