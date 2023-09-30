@@ -56,16 +56,16 @@ public abstract class InGameHudMixin {
             int color = entityDistance > 3 ? 0xFFFFFF : 0xFF0000;
             context.drawText(((InGameHud)(Object)this).getTextRenderer(),
                     Text.translatable(String.format("%.3f", entityDistance)),
-                    (context.getScaledWindowWidth() - 22) / 2,
+                    (context.getScaledWindowWidth() - 26) / 2,
                     (context.getScaledWindowHeight() - 7) / 2 + 15,
-                    color,false);
+                    color,true);
         }
         if (!showHitsInChat && !hideHitDisplay) {
             context.drawText(((InGameHud) (Object) this).getTextRenderer(),
                     Text.translatable(String.format("Last hit: %.3f", lastHit)),
                     10,
                     (context.getScaledWindowHeight() - 7) / 2 - 15,
-                    0xFFFFFF, false);
+                    0xFFFFFF, true);
         }
     }
 }

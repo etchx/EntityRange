@@ -3,7 +3,7 @@
   "id": "entityrange",
   "version": "${version}",
   "name": "EntityRange",
-  "description": "EntityRange is a mod for Minecraft that displays accurate reach distances to entities.",
+  "description": "EntityRange is a mod for Minecraft that displays accurate reach and distance values to entities.",
   "authors": [ "etch" ],
   "contact": {
     "homepage": "https://github.com/etchx/EntityRange",

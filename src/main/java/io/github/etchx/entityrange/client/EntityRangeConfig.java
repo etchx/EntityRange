@@ -15,6 +15,7 @@ public class EntityRangeConfig {
     public static boolean showHitsInChat = false;
     public static boolean hideHitDisplay = false;
     public static boolean hideDistanceDisplay = false;
+    public static boolean useLongDistance = false;
 
     private Path configPath;
     private static final Gson GSON = new GsonBuilder()
