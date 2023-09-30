@@ -8,7 +8,11 @@
   "client": [
     "GameRendererMixin",
     "MinecraftClientMixin",
-    "InGameHudMixin"
+    "InGameHudMixin",
+    "ProjectileEntityMixin",
+    "PersistentProjectileEntityMixin",
+    "TridentEntityMixin",
+    "ClientPlayNetworkHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
