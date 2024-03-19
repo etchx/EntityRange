@@ -19,4 +19,7 @@ The ultimate reach indicator mod
 - Can be disabled in config
 
 ## TODO
-- Improve customizability (drag & drop, client commands, colors)
+- Update mod to newer versions and add support for custom reach values
+- Disable distance indicator when user has blindness or opponent has invisibility
+- Use opponent's velocity and a custom offset (like reaction time) to enable optimal range control [tentative]
+- Improve customizability (drag & drop UI, client commands, colors)
