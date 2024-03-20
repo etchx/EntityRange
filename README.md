@@ -20,6 +20,7 @@ The ultimate reach indicator mod
 
 ## TODO
 - Update mod to newer versions and add support for custom reach values
-- Disable distance indicator when user has blindness or opponent has invisibility
-- Use opponent's velocity and a custom offset (like reaction time) to enable optimal range control [tentative]
+- Disable distance indicator when user has blindness or opponent has invisibility to make the mod legal on most servers
+- Add the ability to log hits and calculate some useful statistics for hit lengths, timings, and types
+- Use opponent's velocity, ping, and a custom offset (like reaction time) to enable optimal range control [tentative]
 - Improve customizability (drag & drop UI, client commands, colors)
