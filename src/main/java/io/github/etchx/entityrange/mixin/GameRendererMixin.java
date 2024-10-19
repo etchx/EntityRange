@@ -24,7 +24,7 @@ import static io.github.etchx.entityrange.client.EntityRangeConfig.useLongDistan
 
 @Mixin(GameRenderer.class)
 public abstract class GameRendererMixin {
-    @Redirect(method = "updateTargetedEntity", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/projectile/ProjectileUtil;raycast(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Box;Ljava/util/function/Predicate;D)Lnet/minecraft/util/hit/EntityHitResult;"))
+    @Redirect(method = "findCrosshairTarget", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/projectile/ProjectileUtil;raycast(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Box;Ljava/util/function/Predicate;D)Lnet/minecraft/util/hit/EntityHitResult;"))
     private EntityHitResult getLongDistance(Entity entity, Vec3d min, Vec3d max, Box box, Predicate<Entity> predicate, double d) {
         EntityHitResult entityHitResult = ProjectileUtil.raycast(entity, min, max, box, predicate, d);
         if (entityHitResult == null && useLongDistance && !hideDistanceDisplay) {

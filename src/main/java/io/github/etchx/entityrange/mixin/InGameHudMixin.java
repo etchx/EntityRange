@@ -3,6 +3,7 @@ package io.github.etchx.entityrange.mixin;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
@@ -24,7 +25,7 @@ import static io.github.etchx.entityrange.client.EntityRangeConfig.showHitsInCha
 @Mixin(InGameHud.class)
 public abstract class InGameHudMixin {
     @Inject(method = "render", at = @At(value = "RETURN"))
-    private void renderEntityRangeDisplay(DrawContext context, float tickDelta, CallbackInfo ci) {
+    private void renderEntityRangeDisplay(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
         PlayerEntity player = MinecraftClient.getInstance().player;
         if (arrowHit && !projectileHit) {
             if (targetPlayer != null) {
