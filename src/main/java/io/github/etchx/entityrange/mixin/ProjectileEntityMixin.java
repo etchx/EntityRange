@@ -11,25 +11,30 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import static io.github.etchx.entityrange.client.EntityRangeClient.projectileHit;
+import static io.github.etchx.entityrange.client.EntityRangeClient.hasProjectileHit;
 import static io.github.etchx.entityrange.client.EntityRangeClient.lastHit;
-import static io.github.etchx.entityrange.client.EntityRangeClient.targetPlayer;
+import static io.github.etchx.entityrange.client.EntityRangeClient.closestProjectilePlayerTarget;
 
 @Mixin(ProjectileEntity.class)
 public abstract class ProjectileEntityMixin {
+    /**
+     * Get the entity hit by a projectile. May not always be useful because of client/server desyncs, and many projectiles
+     * disappear after hit.
+     */
     @Inject(method = "onEntityHit", at = @At(value = "RETURN"))
     private void getProjectileHit(EntityHitResult entityHitResult, CallbackInfo ci) {
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
-        if (((ProjectileEntity)(Object)this).getOwner() != null &&
+        ProjectileEntity projectile = (ProjectileEntity)(Object)this;
+        if (projectile.getOwner() != null &&
                 player != null &&
-                ((ProjectileEntity)(Object)this).getOwner().getUuid() == player.getUuid()) {
-            projectileHit = true;
+                projectile.getOwner().getUuid().equals(player.getUuid())) {
+            hasProjectileHit = true;
             lastHit = player.distanceTo(entityHitResult.getEntity());
-            if (entityHitResult.getEntity() instanceof PlayerEntity && ((ProjectileEntity)(Object)this) instanceof PersistentProjectileEntity) {
-                targetPlayer = (PlayerEntity)entityHitResult.getEntity();
+            if (entityHitResult.getEntity() instanceof PlayerEntity && projectile instanceof PersistentProjectileEntity) {
+                closestProjectilePlayerTarget = (PlayerEntity)entityHitResult.getEntity();
             }
             else {
-                targetPlayer = null;
+                closestProjectilePlayerTarget = null;
             }
         }
     }

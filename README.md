@@ -8,7 +8,8 @@ The ultimate reach indicator mod
 - Enable "use-long-distance" in config to increase range to 80 blocks
 - Accurate to aiming
 - Works while spectating an entity
-- Turns red when in hit range (3 blocks)
+- Turns red when in hit range (based on entity interaction distance)
+- Disabled when user has blindness or target has invisibility
 - Can be disabled in config
 
 ### Hit indicator
@@ -19,8 +20,6 @@ The ultimate reach indicator mod
 - Can be disabled in config
 
 ## TODO
-- Update mod to newer versions and add support for custom reach values
-- Disable distance indicator when user has blindness or opponent has invisibility to make the mod legal on most servers
 - Add the ability to log hits and calculate some useful statistics for hit lengths, timings, and types
 - Use opponent's velocity, ping, and a custom offset (like reaction time) to enable optimal range control [tentative]
 - Improve customizability (drag & drop UI, client commands, colors)
