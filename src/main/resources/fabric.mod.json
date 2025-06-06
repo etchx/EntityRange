@@ -22,6 +22,7 @@
     "EntityRange.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.12.0"
+    "fabricloader": ">=0.12.0",
+    "fabric": "*"
   }
 }

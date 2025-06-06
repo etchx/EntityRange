@@ -32,20 +32,24 @@ public abstract class InGameHudMixin {
         EntityRangeUtil.updateProjectileHitData(player);
 
         // chat hit display
-        if (showHitsInChat && !hideHitDisplay && doUpdateHit) {
-            player.sendMessage(Text.translatable(String.format("%.3f", lastHit)));
+        if (doUpdateHit) {
             doUpdateHit = false;
+            if (showHitsInChat && !hideHitDisplay) {
+                player.sendMessage(Text.translatable(String.format("%.3f", lastHit)));
+            }
         }
 
         // distance display
-        if (isTargetingEntity && !hideDistanceDisplay) {
+        if (isTargetingEntity) {
             isTargetingEntity = false;
-            int color = isInRange ? 0xFF0000 : 0xFFFFFF; // hardcoded colors
-            context.drawText(((InGameHud)(Object)this).getTextRenderer(),
-                    Text.translatable(String.format("%.3f", raycastHitDistance)),
-                    (context.getScaledWindowWidth() - 26) / 2,
-                    (context.getScaledWindowHeight() - 7) / 2 + 15,
-                    color,true);
+            if (!hideDistanceDisplay) {
+                int color = isInRange ? 0xFF0000 : 0xFFFFFF; // hardcoded colors
+                context.drawText(((InGameHud) (Object) this).getTextRenderer(),
+                        Text.translatable(String.format("%.3f", raycastHitDistance)),
+                        (context.getScaledWindowWidth() - 26) / 2,
+                        (context.getScaledWindowHeight() - 7) / 2 + 15,
+                        color, true);
+            }
         }
 
         // side hit display

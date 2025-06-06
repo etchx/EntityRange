@@ -12,26 +12,27 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class EntityRangeConfig {
+    private static final String FILE_NAME = "entityrange.json";
+
     public static boolean showHitsInChat = false;
     public static boolean hideHitDisplay = false;
     public static boolean hideDistanceDisplay = false;
-    public static boolean useLongDistance = false;
+    public static boolean useLongDistance = true;
 
-    private Path configPath;
     private static final Gson GSON = new GsonBuilder()
             .excludeFieldsWithModifiers(Modifier.PRIVATE)
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
             .setPrettyPrinting()
             .create();
 
-    private static Path getConfigPath(String name) {
+    private static Path getConfigPath() {
         return FabricLoader.getInstance()
                 .getConfigDir()
-                .resolve(name);
+                .resolve(EntityRangeConfig.FILE_NAME);
     }
 
-    public static void load(String name) {
-        Path path = getConfigPath(name);
+    public static EntityRangeConfig load() {
+        Path path = getConfigPath();
         EntityRangeConfig config;
 
         if (Files.exists(path)) {
@@ -44,18 +45,18 @@ public class EntityRangeConfig {
             config = new EntityRangeConfig();
         }
 
-        config.configPath = path;
-
         try {
-            config.writeChanges();
+            writeChanges(config);
         } catch (IOException e) {
             throw new RuntimeException("Couldn't update config file", e);
         }
 
+        return config;
     }
 
-    public void writeChanges() throws IOException {
-        Path dir = this.configPath.getParent();
+    public static void writeChanges(EntityRangeConfig config) throws IOException {
+        Path path = getConfigPath();
+        Path dir = path.getParent();
 
         if (!Files.exists(dir)) {
             Files.createDirectories(dir);
@@ -63,6 +64,7 @@ public class EntityRangeConfig {
             throw new IOException("Not a directory: " + dir);
         }
 
-        Files.writeString(this.configPath, GSON.toJson(this));
+        Files.writeString(path, GSON.toJson(config));
     }
+
 }

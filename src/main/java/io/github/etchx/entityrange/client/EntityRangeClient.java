@@ -1,5 +1,6 @@
 package io.github.etchx.entityrange.client;
 
+import io.github.etchx.entityrange.command.Commands;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import net.fabricmc.api.ClientModInitializer;
@@ -7,6 +8,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
 
 public class EntityRangeClient implements ClientModInitializer {
+    public static EntityRangeConfig CONFIG;
     public static final Logger LOGGER = LoggerFactory.getLogger("EntityRange");
 
     /** Position of where player's line of sight intersects with entity hitbox */
@@ -32,6 +34,8 @@ public class EntityRangeClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        EntityRangeConfig.load("entityrange.json");
+        CONFIG = EntityRangeConfig.load();
+
+        Commands.register();
     }
 }
