@@ -1,6 +1,8 @@
 package io.github.etchx.entityrange.mixin;
 
+import io.github.etchx.entityrange.client.EntityRangeClient;
 import io.github.etchx.entityrange.client.EntityRangeUtil;
+import io.github.etchx.entityrange.data.HitlogIO;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
@@ -12,6 +14,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.io.IOException;
+
+import static io.github.etchx.entityrange.client.EntityRangeClient.isRecording;
 import static io.github.etchx.entityrange.client.EntityRangeClient.isTargetingEntity;
 import static io.github.etchx.entityrange.client.EntityRangeClient.isInRange;
 import static io.github.etchx.entityrange.client.EntityRangeClient.raycastHitDistance;
@@ -20,6 +25,7 @@ import static io.github.etchx.entityrange.client.EntityRangeClient.doUpdateHit;
 import static io.github.etchx.entityrange.client.EntityRangeConfig.hideDistanceDisplay;
 import static io.github.etchx.entityrange.client.EntityRangeConfig.hideHitDisplay;
 import static io.github.etchx.entityrange.client.EntityRangeConfig.showHitsInChat;
+import static io.github.etchx.entityrange.client.EntityRangeClient.hitData;
 
 @Mixin(InGameHud.class)
 public abstract class InGameHudMixin {
@@ -30,6 +36,15 @@ public abstract class InGameHudMixin {
     private void renderEntityRangeDisplay(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
         PlayerEntity player = MinecraftClient.getInstance().player;
         EntityRangeUtil.updateProjectileHitData(player);
+
+        if (isRecording && hitData != null) {
+            try {
+                HitlogIO.addHit();
+            } catch (IOException e) {
+                EntityRangeClient.LOGGER.error("Failed to update hitlog file", e);
+            }
+        }
+        hitData = null;
 
         // chat hit display
         if (doUpdateHit) {

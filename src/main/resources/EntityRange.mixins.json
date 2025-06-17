@@ -6,13 +6,17 @@
   "mixins": [
   ],
   "client": [
+    "ClientPlayNetworkHandlerMixin",
     "GameRendererMixin",
-    "MinecraftClientMixin",
     "InGameHudMixin",
-    "ProjectileEntityMixin",
+    "MinecraftClientMixin",
     "PersistentProjectileEntityMixin",
+    "PlayerEntityMixin",
+    "ProjectileEntityMixin",
     "TridentEntityMixin",
-    "ClientPlayNetworkHandlerMixin"
+    "EnchantmentMixin",
+    "LootContextBuilderAccessor",
+    "LootContextInvoker"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,5 +1,7 @@
 package io.github.etchx.entityrange.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.StatusEffects;
@@ -49,27 +51,27 @@ public abstract class GameRendererMixin {
     /**
      * Calculate targeted entity distance with "smart" raycasting
      */
-    @Redirect(method = "findCrosshairTarget", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/projectile/ProjectileUtil;raycast(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Box;Ljava/util/function/Predicate;D)Lnet/minecraft/util/hit/EntityHitResult;"))
-    private EntityHitResult getLongDistance(Entity camera, Vec3d min, Vec3d max, Box box, Predicate<Entity> predicate, double d,
+    @WrapOperation(method = "findCrosshairTarget", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/projectile/ProjectileUtil;raycast(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Box;Ljava/util/function/Predicate;D)Lnet/minecraft/util/hit/EntityHitResult;"))
+    private EntityHitResult getLongDistance(Entity camera, Vec3d min, Vec3d max, Box box, Predicate<Entity> predicate, double maxDistance, Operation<EntityHitResult> original,
                                             Entity camera2, double blockInteractionRange, double entityInteractionRange, float tickDelta) {
-        EntityHitResult entityHitResult = ProjectileUtil.raycast(camera, min, max, box, predicate, d);
+        EntityHitResult entityHitResult = original.call(camera, min, max, box, predicate, maxDistance);
         if (entityHitResult != null) { // Use default raycast when entity close to interaction range
             updateRaycastHit(camera, entityHitResult.getEntity(), entityHitResult.getPos(), entityInteractionRange);
         }
         else if (useLongDistance && !hideDistanceDisplay) { // More expensive raycast when long distance is enabled
             double distance = 80; // Hardcoded distance value
-            d = MathHelper.square(distance);
+            maxDistance = MathHelper.square(distance);
             HitResult hitResult = camera.raycast(distance, tickDelta, false); // this raycast checks for blocks in the way and reduces the max distance
             double e = hitResult.getPos().squaredDistanceTo(min);
             if (hitResult.getType() != HitResult.Type.MISS) {
-                d = e;
+                maxDistance = e;
                 distance = Math.sqrt(e);
             }
 
             Vec3d rot = camera.getRotationVec(tickDelta);
             max = min.add(rot.x*distance, rot.y*distance, rot.z*distance);
             box = camera.getBoundingBox().stretch(rot.multiply(distance)).expand(1.0, 1.0, 1.0);
-            EntityHitResult longHitResult = ProjectileUtil.raycast(camera, min, max, box, predicate, d);
+            EntityHitResult longHitResult = ProjectileUtil.raycast(camera, min, max, box, predicate, maxDistance);
             if (longHitResult != null) {
                 updateRaycastHit(camera, longHitResult.getEntity(), longHitResult.getPos(), entityInteractionRange);
             }

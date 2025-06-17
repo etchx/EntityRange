@@ -1,5 +1,6 @@
 package io.github.etchx.entityrange.command;
 
+import com.mojang.brigadier.tree.ArgumentCommandNode;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import io.github.etchx.entityrange.client.EntityRangeClient;
 import io.github.etchx.entityrange.client.EntityRangeConfig;
@@ -34,6 +35,21 @@ public class Commands {
                     .literal("long")
                     .executes(ToggleCommand::toggleLong)
                     .build();
+            LiteralCommandNode<FabricClientCommandSource> hitlogNode = ClientCommandManager
+                    .literal("hitlog")
+                    .build();
+            LiteralCommandNode<FabricClientCommandSource> recordNode = ClientCommandManager
+                    .literal("record")
+                    .executes(HitlogCommand::hitlogRecord)
+                    .build();
+            LiteralCommandNode<FabricClientCommandSource> statsNode = ClientCommandManager
+                    .literal("stats")
+                    .executes(HitlogCommand::hitlogStats)
+                    .build();
+            ArgumentCommandNode<FabricClientCommandSource, String> statsArgs = ClientCommandManager
+                    .argument("file", HitlogFileArgumentType.file())
+                    .executes(HitlogCommand::hitlogStats)
+                    .build();
 
             dispatcher.getRoot().addChild(erNode);
             erNode.addChild(toggleNode);
@@ -41,6 +57,10 @@ public class Commands {
             toggleNode.addChild(hitNode);
             toggleNode.addChild(distanceNode);
             toggleNode.addChild(longNode);
+            erNode.addChild(hitlogNode);
+            hitlogNode.addChild(recordNode);
+            hitlogNode.addChild(statsNode);
+            statsNode.addChild(statsArgs);
         });
     }
 

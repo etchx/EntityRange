@@ -19,12 +19,18 @@ The ultimate reach indicator mod
 - Chat Mode shows hit distances in chat, can be toggled on
 - Can be toggled off
 
+### Hit logging
+- Start and stop logging with `/er hitlog record`
+- Hitlog files are stored in a dedicated `/hitlogs` directory
+- Hitlog data include hit time, charge, hit type, distance, and damage
+- Ending recording displays statistics of the recording session, including average distance and DPS
+- Display the statistics of a previous log with `/er hitlog stats [filename]`
+
 ### Customizability
 - Commands:
 
-`\er toggle [chat|distance|hit|long]`
+`/er toggle [chat|distance|hits|long]`
 
 ## TODO
-- Add the ability to log hits and calculate some useful statistics for hit lengths, timings, and types
 - Use opponent's velocity, ping, and a custom offset (like reaction time) to enable optimal range control [tentative]
 - Improve customizability (drag & drop UI, colors)
