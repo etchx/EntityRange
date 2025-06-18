@@ -33,18 +33,16 @@ public class EntityRangeUtil {
             hasArrowHit = false;
             hasProjectileHit = false;
         }
-        // projectile hit non-player on client
-        // possible bug where client thinks the projectile has hit a player, but never receives arrow hit packet.
+        // projectile hit on client, non-player target and/or non-arrow projectile
+        // we can never know if it actually hit on the server unfortunately
         else if (hasProjectileHit && closestProjectilePlayerTarget == null) {
             doUpdateHit = true;
             hasProjectileHit = false;
         }
-        // i forgor
-        else if (hasProjectileHit) {
-            LOGGER.warn("Stop hitting yourself!");
-            closestProjectilePlayerTarget = null;
-            hasProjectileHit = false;
-        }
+        // Last case: arrow hit a player on the client, but hasn't received arrow hit packet
+        // this rolls over to future ticks, keeping the values of closestProjectilePlayerTarget and hasProjectileHit
+        // if the arrow hit packet is never received, then it won't update until another projectile hits
+
         closestProjectileTargetSquaredDistance = Double.MAX_VALUE;
     }
 }

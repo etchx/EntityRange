@@ -18,14 +18,14 @@ import static io.github.etchx.entityrange.client.EntityRangeClient.closestProjec
 @Mixin(PersistentProjectileEntity.class)
 public class PersistentProjectileEntityMixin {
     /**
-     * Get the player closest to any projectile owned by the client player. This is necessary when client/server desyncs
+     * Get the player closest to an arrow owned by the client player. This is necessary when client/server desyncs
      * cause onEntityHit logic to fail.
      */
     @Inject(method = "tick", at = @At(value = "HEAD"))
     private void findHit(CallbackInfo ci) {
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
         PersistentProjectileEntity projectile = ((PersistentProjectileEntity)(Object) this);
-        if (!(projectile instanceof TridentEntity) && // unnecessary for specifically tridents
+        if (!(projectile instanceof TridentEntity) &&
                 projectile.getOwner() != null &&
                 player != null &&
                 projectile.getOwner().getUuid().equals(player.getUuid())) {

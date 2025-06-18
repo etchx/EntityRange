@@ -18,8 +18,7 @@ import static io.github.etchx.entityrange.client.EntityRangeClient.closestProjec
 @Mixin(ProjectileEntity.class)
 public abstract class ProjectileEntityMixin {
     /**
-     * Get the entity hit by a projectile. May not always be useful because of client/server desyncs, and many projectiles
-     * disappear after hit.
+     * Get the entity hit by a projectile. May not always be useful because of client/server desyncs.
      */
     @Inject(method = "onEntityHit", at = @At(value = "RETURN"))
     private void getProjectileHit(EntityHitResult entityHitResult, CallbackInfo ci) {
@@ -30,6 +29,7 @@ public abstract class ProjectileEntityMixin {
                 projectile.getOwner().getUuid().equals(player.getUuid())) {
             hasProjectileHit = true;
             lastHit = player.distanceTo(entityHitResult.getEntity());
+            // if an arrow hit a player
             if (entityHitResult.getEntity() instanceof PlayerEntity && projectile instanceof PersistentProjectileEntity) {
                 closestProjectilePlayerTarget = (PlayerEntity)entityHitResult.getEntity();
             }
