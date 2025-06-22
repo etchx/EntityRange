@@ -13,6 +13,7 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Util;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
@@ -128,6 +129,18 @@ public class HitlogCommand {
 
         } catch (IOException e) {
             context.getSource().sendFeedback(Text.literal("Could not read hitlog").formatted(Formatting.RED));
+            EntityRangeClient.LOGGER.error(e.getMessage());
+            return -1;
+        }
+        return 1;
+    }
+
+    public static int hitlogDelete(CommandContext<FabricClientCommandSource> context) throws CommandSyntaxException {
+        try {
+            String filename = HitlogFileArgumentType.getFile(context, "file");
+            Files.delete(getHitlogDir().resolve(filename));
+        } catch (IOException e) {
+            context.getSource().sendFeedback(Text.literal("Could not delete hitlog").formatted(Formatting.RED));
             EntityRangeClient.LOGGER.error(e.getMessage());
             return -1;
         }

@@ -50,6 +50,14 @@ public class Commands {
                     .argument("file", HitlogFileArgumentType.file())
                     .executes(HitlogCommand::hitlogStats)
                     .build();
+            LiteralCommandNode<FabricClientCommandSource> deleteNode = ClientCommandManager
+                    .literal("delete")
+                    .executes(HitlogCommand::hitlogDelete)
+                    .build();
+            ArgumentCommandNode<FabricClientCommandSource, String> deleteArgs = ClientCommandManager
+                    .argument("file", HitlogFileArgumentType.file())
+                    .executes(HitlogCommand::hitlogDelete)
+                    .build();
 
             dispatcher.getRoot().addChild(erNode);
             erNode.addChild(toggleNode);
@@ -61,6 +69,8 @@ public class Commands {
             hitlogNode.addChild(recordNode);
             hitlogNode.addChild(statsNode);
             statsNode.addChild(statsArgs);
+            hitlogNode.addChild(deleteNode);
+            deleteNode.addChild(deleteArgs);
         });
     }
 
