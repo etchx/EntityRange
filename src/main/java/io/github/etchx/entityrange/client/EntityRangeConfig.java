@@ -18,6 +18,10 @@ public class EntityRangeConfig {
     public static boolean hideHitDisplay = false;
     public static boolean hideDistanceDisplay = false;
     public static boolean useLongDistance = true;
+    public static float distanceX = 0;
+    public static float distanceY = -8.522727F;
+    public static float hitX = -96.710527F;
+    public static float hitY = 8.522727F;
 
     private static final Gson GSON = new GsonBuilder()
             .excludeFieldsWithModifiers(Modifier.PRIVATE)

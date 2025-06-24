@@ -1,6 +1,8 @@
 package io.github.etchx.entityrange.client;
 
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.text.Text;
 
 import static io.github.etchx.entityrange.client.EntityRangeClient.LOGGER;
 import static io.github.etchx.entityrange.client.EntityRangeClient.closestProjectilePlayerTarget;
@@ -44,5 +46,24 @@ public class EntityRangeUtil {
         // if the arrow hit packet is never received, then it won't update until another projectile hits
 
         closestProjectileTargetSquaredDistance = Double.MAX_VALUE;
+    }
+
+    public static int getX(float percentX, int screenWidth, Text message, TextRenderer textRenderer) {
+        return (int) ((screenWidth - textRenderer.getWidth(message)) / 2 * (1 + percentX/100));
+    }
+
+    public static int getY(float percentY, int screenHeight) {
+        return (int) ((screenHeight - 7) / 2 * (1 - percentY/100));
+    }
+
+    public static float getPercentX(int x, int screenWidth, Text message, TextRenderer textRenderer) {
+        int textWidth = textRenderer.getWidth(message);
+        float base = (screenWidth - textWidth) / 2.0f;
+        return ((x / base) - 1) * 100;
+    }
+
+    public static float getPercentY(int y, int screenHeight) {
+        float base = (screenHeight - 7) / 2.0f;
+        return (1 - (y / base)) * 100;
     }
 }

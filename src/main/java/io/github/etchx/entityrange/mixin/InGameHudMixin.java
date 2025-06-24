@@ -27,8 +27,12 @@ import static io.github.etchx.entityrange.client.EntityRangeClient.isInRange;
 import static io.github.etchx.entityrange.client.EntityRangeClient.raycastHitDistance;
 import static io.github.etchx.entityrange.client.EntityRangeClient.lastHit;
 import static io.github.etchx.entityrange.client.EntityRangeClient.doUpdateHit;
+import static io.github.etchx.entityrange.client.EntityRangeConfig.distanceX;
+import static io.github.etchx.entityrange.client.EntityRangeConfig.distanceY;
 import static io.github.etchx.entityrange.client.EntityRangeConfig.hideDistanceDisplay;
 import static io.github.etchx.entityrange.client.EntityRangeConfig.hideHitDisplay;
+import static io.github.etchx.entityrange.client.EntityRangeConfig.hitX;
+import static io.github.etchx.entityrange.client.EntityRangeConfig.hitY;
 import static io.github.etchx.entityrange.client.EntityRangeConfig.showHitsInChat;
 import static io.github.etchx.entityrange.client.EntityRangeClient.hitData;
 
@@ -67,13 +71,14 @@ public abstract class InGameHudMixin {
         // distance display
         if (!hideDistanceDisplay) {
             MutableText text = Text.translatable(String.format("%.3f", raycastHitDistance));
-            int width = this.getTextRenderer().getWidth(text);
             if (isTargetingEntity) {
+                //LOGGER.info(String.valueOf((float) 15 / ((context.getScaledWindowHeight() - 7) / 2)));
+                //LOGGER.info(String.valueOf((float) (((context.getScaledWindowWidth() - width) / 2) - 10) / ((context.getScaledWindowWidth() - width) / 2)));
                 int color = isInRange ? 0xFF0000 : 0xFFFFFF; // hardcoded colors
                 context.drawText(this.getTextRenderer(),
                         text,
-                        (context.getScaledWindowWidth() - width) / 2,
-                        (context.getScaledWindowHeight() - 7) / 2 + 15,
+                        EntityRangeUtil.getX(distanceX, context.getScaledWindowWidth(), text, this.getTextRenderer()),
+                        EntityRangeUtil.getY(distanceY, context.getScaledWindowHeight()),
                         color, true);
                 distanceDisplayFade = (int)(20.0 * MinecraftClient.getInstance().options.getNotificationDisplayTime().getValue());
             } else if (distanceDisplayFade > 0) {
@@ -84,8 +89,8 @@ public abstract class InGameHudMixin {
                 if (alpha > 0) {
                     context.drawText(this.getTextRenderer(),
                             text,
-                            (context.getScaledWindowWidth() - width) / 2,
-                            (context.getScaledWindowHeight() - 7) / 2 + 15,
+                            EntityRangeUtil.getX(distanceX, context.getScaledWindowWidth(), text, this.getTextRenderer()),
+                            EntityRangeUtil.getY(distanceY, context.getScaledWindowHeight()),
                             ColorHelper.Argb.withAlpha(alpha, 0x555555), true);
                 }
                 distanceDisplayFade--;
@@ -95,10 +100,11 @@ public abstract class InGameHudMixin {
 
         // side hit display
         if (!showHitsInChat && !hideHitDisplay) {
+            MutableText text = Text.translatable(String.format("Last hit: %.3f", lastHit));
             context.drawText(((InGameHud) (Object) this).getTextRenderer(),
-                    Text.translatable(String.format("Last hit: %.3f", lastHit)),
-                    10,
-                    (context.getScaledWindowHeight() - 7) / 2 - 15,
+                    text,
+                    EntityRangeUtil.getX(hitX, context.getScaledWindowWidth(), text, this.getTextRenderer()),
+                    EntityRangeUtil.getY(hitY, context.getScaledWindowHeight()),
                     0xFFFFFF, true);
         }
     }
